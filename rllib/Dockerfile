@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/pytorch:22.03-py3
+FROM nvcr.io/nvidia/pytorch:22.04-py3
 
 WORKDIR /root
 
