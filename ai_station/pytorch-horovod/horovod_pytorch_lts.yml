@@ -1,0 +1,32 @@
+name: horovod-pytorch
+
+channels:
+  - pytorch-lts
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.8
+  - pip
+  - jupyterlab
+  - ipywidgets
+  # vscode support
+  - autopep8
+  - pylint
+  # horovod
+  - ccache
+  - cmake
+  - cudatoolkit=11.1
+  - cudnn
+  # - cupti
+  - cxx-compiler
+  - jupyterlab
+  - mpi4py # installs cuda-aware openmpi
+  - nccl
+  - nvcc_linux-64
+  - pytorch
+  - tensorboard
+  - torchaudio
+  - torchvision
+  - pip:
+    - -r horovod_pytorch_requirements.txt
