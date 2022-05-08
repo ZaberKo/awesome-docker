@@ -4,11 +4,13 @@ LABEL maintainer="zaber" version="20.04"
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
 
+RUN apt update \
+    && apt install ca-certificates -y
+    
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY sources.list /etc/apt/sources.list
-
-RUN apt update \
-    && apt full-upgrade -y
+    
+RUN apt update && apt full-upgrade -y
     
 RUN apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
     bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
