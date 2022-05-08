@@ -4,6 +4,9 @@ LABEL maintainer="zaber" version="20.04"
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
 
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+COPY sources.list /etc/apt/sources.list
+
 RUN apt update \
     && apt full-upgrade -y
     
