@@ -1,7 +1,5 @@
 FROM nvcr.io/nvidia/pytorch:22.04-py3
 
-WORKDIR /root
-
 EXPOSE 22
 
 RUN apt update && \
@@ -19,6 +17,9 @@ RUN set -ex && \
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
+
+VOLUME [ "/root/workspace" ]
+WORKDIR /root/workspace
 
 
 CMD ["/bin/bash"]
