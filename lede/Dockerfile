@@ -23,14 +23,20 @@ RUN set -eux; \
     apt install -y sudo gosu; \
     rm -rf /var/lib/apt/lists/*
 
+# unminimize the system(optional)
+RUN yes | unminimize
+
 ENV USERNAME=fubuki
 
 RUN useradd -m -G sudo ${USERNAME}
 # RUN git clone https://github.com/coolsnowwolf/lede
-USER ${USERNAME}
+# USER ${USERNAME}
 
 VOLUME [ "/home/${USERNAME}/lede" ]
 WORKDIR /home/${USERNAME}/lede
 ENV TERM xterm-256color
 
-ENTRYPOINT [ "entrypoint.sh" ]
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+CMD ["/bin/bash"]
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
