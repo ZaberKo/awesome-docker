@@ -12,6 +12,9 @@ RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY sources.list /etc/apt/sources.list
 
 RUN apt update && apt full-upgrade -y
+
+# unminimize the system(optional)
+RUN yes | unminimize
     
 RUN set -eux; \
     apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
@@ -21,10 +24,8 @@ RUN set -eux; \
         mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pip qemu-utils \
         rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev; \
     apt install -y sudo gosu; \
+    gosu nobody true; \
     rm -rf /var/lib/apt/lists/*
-
-# unminimize the system(optional)
-RUN yes | unminimize
 
 ENV USERNAME=fubuki
 
