@@ -2,8 +2,11 @@
 
 set -euxo pipefail
 
-# read -p "please input you username > " USERNAME
-# useradd -m -G sudo ${USERNAME}
-echo "setting password for user ${USERNAME}:"
-passwd ${USERNAME}
-exec gosu ${USERNAME} "$@"
+# handling restart(stop&start) cases.
+if ! id -u ${USERNAME} &>/dev/null; then
+    useradd -m -G sudo ${USERNAME}
+    echo "setting password for user ${USERNAME}:"
+    passwd ${USERNAME}
+fi
+
+cd ${WORKDIR} && exec gosu ${USERNAME} "$@"

@@ -4,19 +4,19 @@ LABEL maintainer="zaber" version="20.04"
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
 
-RUN apt update \
-    && apt install ca-certificates -y
+RUN set -eux; \
+    apt update; \
+    apt install -y ca-certificates; \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 
 COPY sources.list /etc/apt/sources.list
-
-RUN apt update && apt full-upgrade -y
-
-# unminimize the system(optional)
-RUN yes | unminimize
     
 RUN set -eux; \
+    apt update && apt full-upgrade -y; \
+    yes | unminimize; \
+    apt install -y git neovim; \
     apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
         bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
         git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev \
@@ -28,13 +28,10 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 ENV USERNAME=fubuki
+ENV WORKDIR="/home/${USERNAME}/openwrt"
 
-RUN useradd -m -G sudo ${USERNAME}
-# RUN git clone https://github.com/coolsnowwolf/lede
-# USER ${USERNAME}
+VOLUME [ ${WORKDIR} ]
 
-VOLUME [ "/home/${USERNAME}/lede" ]
-WORKDIR /home/${USERNAME}/lede
 ENV TERM xterm-256color
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
