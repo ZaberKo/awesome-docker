@@ -30,7 +30,7 @@ RUN set -eux; \
 ENV USERNAME=fubuki
 ENV WORKDIR="/home/${USERNAME}/openwrt"
 
-VOLUME [ ${WORKDIR} ]
+VOLUME ["${WORKDIR}"]
 
 ENV TERM xterm-256color
 
