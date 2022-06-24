@@ -27,8 +27,10 @@ RUN set -eux; \
     gosu nobody true; \
     rm -rf /var/lib/apt/lists/*
 
+ENV UID=1000
+ENV GID=1000
 ENV USERNAME=fubuki
-ENV WORKDIR="/home/${USERNAME}/openwrt"
+ENV WORKDIR="/openwrt"
 
 VOLUME ["${WORKDIR}"]
 
@@ -37,4 +39,4 @@ ENV TERM xterm-256color
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 CMD ["/bin/bash"]
-ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

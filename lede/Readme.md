@@ -5,36 +5,28 @@ Based on Ubuntu 20.04 LTS
 ## Build the image from Dockerfile
 
 ```bash
-docker build -t lede --rm .
+docker build -t lede:20.04 .
 ```
 
-The default user is `fubuki`, you can change the name in Dockerfile with `ARG USERNAME=xxx`
+The default user is `fubuki`, you can change the username at **building time** by changing the Dockerfile with `ENV USERNAME=<xxx>`
 
 ## Start the system
 
 Initialize the container
 
 ```bash
-docker run -it --name=lede  -v /your/host/path:/home/fubuki/lede lede /bin/bash
+docker run -it --name=lede  -v /your/host/path:/home/fubuki/lede lede:20.04 /bin/bash
 ```
+You can specify your host user uid and gid by injecting env vars: `-e UID=$(id -u)` and `-e GID=$(id -g)`. This is helpful when using bind mounts.
 
 Note: `/your/host/path` must be in a case-sensitive file system. That is to say, you cannot set it to a NTFS drive or some HFS/APFS without case-sensitive feature.
-
-
 
 Then use git to pull the lede repo (in the container):
 
 ```bash
-git clone https://github.com/coolsnowwolf/lede ~/lede
+git clone https://github.com/coolsnowwolf/lede
 ```
 
-
-
-If you want use `sudo` in the container, you need to change the password of `fubuki` by
-
-```bash
-docker exec -u root -it lede passwd fubuki
-```
 
 
 
