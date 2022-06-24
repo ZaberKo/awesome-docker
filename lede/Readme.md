@@ -15,7 +15,7 @@ The default user is `fubuki`, you can change the username at **building time** b
 Initialize the container
 
 ```bash
-docker run -it --name=lede  -v /your/host/path:/home/fubuki/lede lede:20.04 /bin/bash
+docker run -it --name=lede  -v /your/host/path:/openwrt lede:20.04 /bin/bash
 ```
 You can specify your host user uid and gid by injecting env vars: `-e UID=$(id -u)` and `-e GID=$(id -g)`. This is helpful when using bind mounts.
 
