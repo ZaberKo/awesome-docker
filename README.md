@@ -1,2 +1,2 @@
 # awesome-docker
-Maintain many Dockerfile for self-used purpose
+Maintain many useful Dockerfiles for AI and other fun stuff :)
