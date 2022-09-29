@@ -1,7 +1,8 @@
-FROM nvcr.io/nvidia/pytorch:22.04-py3
+FROM nvcr.io/nvidia/pytorch:22.08-py3
 
 EXPOSE 22
 
+# libgl1 is for opencv
 RUN apt update && \
     apt install -y neovim curl git tmux htop zsh iproute2 openssh-server libgl1
     
