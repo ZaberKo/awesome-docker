@@ -26,3 +26,8 @@ Then enable the ssh server and change the password
 docker exec rllib service ssh start
 docker exec -it rllib passwd
 ```
+
+Install gym-mujoco in the **container**:
+```bash
+pip install "gym[mujoco]"
+```
