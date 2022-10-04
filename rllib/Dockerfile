@@ -2,7 +2,6 @@ FROM nvcr.io/nvidia/pytorch:22.08-py3
 
 EXPOSE 22
 
-ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
 
 RUN set -ex && \
@@ -13,7 +12,9 @@ RUN set -ex && \
 # libosmesa6-dev libgl1-mesa-glx libglfw3 are for mujoco
 RUN set -ex && \
     apt update && \
-    apt install -y neovim curl git tmux htop zsh iproute2 openssh-server libosmesa6-dev libgl1-mesa-glx libglfw3 
+    DEBIAN_FRONTEND=noninteractive apt install -y \
+        neovim curl git tmux htop zsh iproute2 openssh-server \
+        libosmesa6-dev libgl1-mesa-dev libgl1-mesa-glx libglfw3 
 
 RUN sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
 # mkdir -p /var/run/sshd 
