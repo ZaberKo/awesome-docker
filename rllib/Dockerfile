@@ -16,6 +16,7 @@ RUN conda install mamba -n base
 RUN set -ex && \
     git clone https://github.com/ZaberKo/conda-envs.git /root/conda-envs && \
     mamba env create -f /root/conda-envs/rllib/rllib-nocache-${MACHINE_TYPE}.yaml
+RUN conda init
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
