@@ -15,8 +15,11 @@ Recommended command for GPU node:
 ```bash
 docker run -it \
     --name=rllib \
-    -v=<workspace>:/root/workspace \
+    -v=$HOME/workspace:/root/workspace \
+    -v=$HOME/.mujoco:/root/.mujoco \
+    -v=$HOME/ray_results:/root/ray_results \
     --gpus=all \
+    --shm-size=8g \
     -P \
     pytorch-rllib:22.08
 ```
@@ -27,7 +30,12 @@ docker exec rllib service ssh start
 docker exec -it rllib passwd
 ```
 
-Install gym-mujoco in the **container**:
+Create a new shell to operate the container, or connect through ssh.
+```bash
+docker exec -it rllib /bin/bash
+```
+
+Finally, install gym-mujoco in the **container**:
 ```bash
 pip install "gym[mujoco]"
 ```

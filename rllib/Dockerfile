@@ -9,10 +9,11 @@ RUN set -ex && \
     sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
     sed -i "s@http://.*security.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
 
-# libgl1 is for opencv( and mujoco)
+# libgl1 is for opencv (already include in by other deps)
+# libosmesa6-dev libgl1-mesa-glx libglfw3 are for mujoco
 RUN set -ex && \
     apt update && \
-    apt install -y neovim curl git tmux htop zsh iproute2 openssh-server libgl1
+    apt install -y neovim curl git tmux htop zsh iproute2 openssh-server libosmesa6-dev libgl1-mesa-glx libglfw3 
 
 RUN sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
 # mkdir -p /var/run/sshd 
