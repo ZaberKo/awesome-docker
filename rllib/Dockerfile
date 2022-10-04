@@ -31,7 +31,8 @@ RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SH
 
 # post install for mujoco 
 # libgl1 (for opencv) is already included
-RUN apt install -y libosmesa6-dev libgl1-mesa-dev libgl1-mesa-glx libglfw3
+RUN apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3
+RUN mamba install -n rllib -y lockfile cython pyglfw 
 
 VOLUME [ "/root/workspace" ]
 VOLUME [ "/root/.mujoco" ]
