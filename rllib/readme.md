@@ -23,14 +23,16 @@ docker run -it \
     -P \
     pytorch-rllib:22.08
 ```
+Or use the `docker-compose.yaml` file in the folder.
 
+## Post Initialization
 Then enable the ssh server and change the password
 ```bash
 docker exec rllib service ssh start
 docker exec -it rllib passwd
 ```
 
-Create a new shell to operate the container, or connect through ssh.
+Create a new shell to operate the container, or connect the container through ssh.
 ```bash
 docker exec -it rllib /bin/bash
 ```

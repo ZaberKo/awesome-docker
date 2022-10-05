@@ -1,0 +1,20 @@
+services:
+  rllib:
+    image: pytorch-rllib:22.08
+    container_name: rllib
+    ports:
+      - 11451:22
+    shm_size: 8g
+    network_mode: bridge
+    volumes:
+      - ~/workspace:/root/workspace
+      - ~/.mujoco:/root/.mujoco
+      - ~/ray_results:/root/ray_results
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+      
