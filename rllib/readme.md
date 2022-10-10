@@ -40,4 +40,6 @@ docker exec -it rllib /bin/bash
 Finally, install gym-mujoco in the **container**:
 ```bash
 pip install "gym[mujoco]"
+$ or
+mamba env update -n rllib -f /root/conda-envs/rllib/rllib-mujoco-patch.yaml
 ```
