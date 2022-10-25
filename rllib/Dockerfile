@@ -31,7 +31,7 @@ RUN conda install mamba -n base
 RUN set -ex; \
     git clone https://github.com/ZaberKo/conda-envs.git /root/conda-envs; \
     mamba env create -f /root/conda-envs/rllib/rllib-nocache-${MACHINE_TYPE}.yaml
-RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.mujoco/mjpro150/bin" >> /root/.bashrc
+RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.mujoco/mjpro150/bin' >> /root/.bashrc
 RUN conda init && echo "conda activate rllib" >> /root/.bashrc
 
 # fix ssh login envs missing issue
