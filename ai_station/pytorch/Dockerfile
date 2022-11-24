@@ -31,4 +31,9 @@ RUN mkdir -p $JUPYTER_CONFIG_DIR && \
     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/jupyter_notebook_config.py && \
     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js
 
+# use local script
+# COPY ../jupyter_notebook_config.py ../custom.js $JUPYTER_CONFIG_DIR
+
+
+
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment

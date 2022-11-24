@@ -32,7 +32,7 @@ ARG JUPYTER_CONFIG_DIR=/root/.jupyter/
 
 RUN mkdir -p $JUPYTER_CONFIG_DIR && \
     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/jupyter_notebook_config.py && \
-    wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js && \
+    wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js
     # ln -s /opt/conda/bin/jupyter /usr/local/bin/jupyter
 
 # mkdir -p /var/run/sshd 
