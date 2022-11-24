@@ -15,7 +15,7 @@ RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
         neovim curl git tmux htop zsh iproute2 openssh-server libgl1 \
-        libosmesa6-dev libgl1-mesa-glx libglfw3; \
+        libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf; \
     rm -rf /var/lib/apt/lists/*
 
 
