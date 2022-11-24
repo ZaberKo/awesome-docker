@@ -37,14 +37,14 @@ RUN mkdir -p $JUPYTER_CONFIG_DIR && \
 
 # mkdir -p /var/run/sshd 
 
-ARG MACHINE_TYPE=gpu
+# ARG MACHINE_TYPE=gpu
 # ARG MACHINE_TYPE=cpu
 
 # install rllib
 RUN conda install mamba -n base
 RUN set -ex; \
     git clone https://github.com/ZaberKo/conda-envs.git /root/conda-envs; \
-    mamba env create -f /root/conda-envs/rllib/rllib-nocache-${MACHINE_TYPE}.yaml
+    mamba env create -f /root/conda-envs/rllib/rllib-nocache-gpu.yaml
 RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.mujoco/mjpro150/bin' >> /root/.bashrc
 RUN conda init && echo "conda activate rllib" >> /root/.bashrc
 
