@@ -31,8 +31,10 @@ RUN set -ex && chmod +x /tmp/conda_env/horovod_pytorch_env.sh && \
     ENV_PREFIX=$HOROVOD_HOME /tmp/conda_env/horovod_pytorch_env.sh /tmp/conda_env/horovod_pytorch.yml
 # RUN echo "conda activate ${HOROVOD_HOME}">>/root/.bashrc
 
-# restore broken PATH by AI Station ssh connection
-RUN echo 'export PATH=/opt/conda/lib/python3.8/site-packages/torch_tensorrt/bin:/opt/conda/bin:$PATH' >> /root/.bashrc
+
+# RUN echo 'export PATH=/opt/conda/lib/python3.8/site-packages/torch_tensorrt/bin:/opt/conda/bin:$PATH' >> /root/.bashrc
+# fix ssh login envs missing issue
+RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
 RUN conda init bash
 
 
