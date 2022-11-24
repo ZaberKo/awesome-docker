@@ -1,7 +1,22 @@
 FROM nvcr.io/nvidia/pytorch:22.02-py3
 
-RUN apt update && \
-    apt install -y neovim curl git tmux htop zsh
+EXPOSE 22
+
+ENV TZ=Asia/Shanghai
+
+RUN set -ex && \
+    sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
+    sed -i "s@http://.*security.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
+
+
+# opencv: libgl1
+# mujoco: libosmesa6-dev libgl1-mesa-glx libglfw3
+RUN set -ex; \
+    apt update;  \
+    DEBIAN_FRONTEND=noninteractive apt install -y \
+        neovim curl git tmux htop zsh iproute2 openssh-server libgl1 \
+        libosmesa6-dev libgl1-mesa-glx libglfw3; \
+    rm -rf /var/lib/apt/lists/*
 
 # ssh server
 RUN apt install -y openssh-server && \
@@ -16,9 +31,4 @@ RUN mkdir -p $JUPYTER_CONFIG_DIR && \
     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/jupyter_notebook_config.py && \
     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js
 
-
-# Add Tini
-# ENV TINI_VERSION v0.19.0
-# ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-# RUN chmod +x /tini
-# ENTRYPOINT ["/tini", "--"]
+RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment

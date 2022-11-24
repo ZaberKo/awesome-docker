@@ -18,8 +18,7 @@ RUN mkdir -p $JUPYTER_CONFIG_DIR && \
     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/jupyter_notebook_config.py && \
     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js && \
     # ln -s /opt/conda/bin/jupyter /usr/local/bin/jupyter
-
-
+    
 # install on base env
 ARG HOROVOD_HOME=/opt/conda
 
@@ -40,15 +39,3 @@ RUN conda init bash
 
 
 
-# locale config
-# no need for this base image, already set to utf-8
-# export PATH=/opt/conda/lib/python3.8/site-packages/torch_tensorrt/bin:/opt/conda/bin:$PATH
-
-
-
-
-# Add Tini
-# ENV TINI_VERSION v0.19.0
-# ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-# RUN chmod +x /tini
-# ENTRYPOINT ["/tini", "--"]
