@@ -15,7 +15,7 @@ RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
         neovim curl git tmux htop zsh iproute2 openssh-server libgl1 \
-        libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf; \
+        libosmesa6-dev libgl1-mesa-dev libgl1-mesa-glx libglfw3 patchelf; \
     rm -rf /var/lib/apt/lists/*
 
 
@@ -44,7 +44,7 @@ RUN mkdir -p $JUPYTER_CONFIG_DIR && \
 RUN conda install mamba -n base
 RUN set -ex; \
     git clone https://github.com/ZaberKo/conda-envs.git /root/conda-envs; \
-    mamba env create -f /root/conda-envs/rllib/rllib-nocache-gpu.yaml
+    mamba env create -f /root/conda-envs/rllib/rllib-nocache-gpu_201.yaml
 RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.mujoco/mjpro150/bin' >> /root/.bashrc
 RUN conda init && echo "conda activate rllib" >> /root/.bashrc
 
