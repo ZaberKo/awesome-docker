@@ -27,7 +27,7 @@ ARG MACHINE_TYPE=gpu
 # ARG MACHINE_TYPE=cpu
 
 # install rllib
-RUN conda install mamba -n base
+RUN conda install mamba -n base -c conda-forge
 RUN set -ex; \
     git clone https://github.com/ZaberKo/conda-envs.git /root/conda-envs; \
     mamba env create -f /root/conda-envs/rllib/rllib-nocache-${MACHINE_TYPE}.yaml
