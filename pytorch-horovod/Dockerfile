@@ -1,4 +1,5 @@
-FROM nvcr.io/nvidia/pytorch:22.12-py3
+FROM nvcr.io/nvidia/pytorch:22.10-py3
+# note: >22.10 nvidia changes to not using conda
 
 ENV TZ=Asia/Shanghai
 
