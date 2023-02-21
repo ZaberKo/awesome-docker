@@ -15,6 +15,7 @@ RUN set -ex; \
 
 # ssh server (also for horovod ssh connection)
 RUN sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
+EXPOSE 22
 
 # note: install mambaforge
 RUN wget -O Mambaforge.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
