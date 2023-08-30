@@ -3,9 +3,13 @@ FROM nvcr.io/nvidia/pytorch:22.12-py3
 
 ENV TZ=Asia/Shanghai
 
+RUN set -eux; \
+    apt update; \
+    DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates; \
+    rm -rf /var/lib/apt/lists/*
+
 RUN set -ex && \
-    sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
-    sed -i "s@http://.*security.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
+    sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
 
 RUN set -ex; \
     apt update;  \

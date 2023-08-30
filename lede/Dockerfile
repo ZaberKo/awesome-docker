@@ -9,7 +9,9 @@ RUN set -eux; \
     apt install -y ca-certificates; \
     rm -rf /var/lib/apt/lists/*
 
-COPY sources.list /etc/apt/sources.list
+# COPY sources.list /etc/apt/sources.list
+RUN set -ex && \
+    sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
     
 RUN set -eux; \
     apt update && apt full-upgrade -y; \
