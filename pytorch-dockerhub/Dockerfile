@@ -1,5 +1,6 @@
-FROM nvcr.io/nvidia/pytorch:22.12-py3
-# note: >22.10 nvidia changes to not using
+ARG IMAGE_TAG=2.0.1-cuda11.7-cudnn8-devel
+
+FROM pytorch/pytorch:${IMAGE_TAG}
 
 ENV TZ=Asia/Shanghai
 
@@ -21,11 +22,15 @@ RUN set -ex; \
 RUN sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
 EXPOSE 22
 
+ARG INSTALL_MAMBA=false
+
 # note: install mambaforge
-RUN wget -O Mambaforge.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
-    bash Mambaforge.sh -b && \
-    rm Mambaforge.sh && \
-    ~/mambaforge/bin/mamba init
+RUN if [ ${INSTALL_MAMBA} = true ]; then \
+        wget -O Mambaforge.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
+        bash Mambaforge.sh -b && \
+        rm Mambaforge.sh && \
+        ~/mambaforge/bin/mamba init; \
+    fi
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
