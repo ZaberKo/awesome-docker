@@ -1,4 +1,4 @@
-ARG IMAGE_TAG=2.0.1-cuda11.7-cudnn8-devel
+ARG IMAGE_TAG=2.1.0-cuda12.1-cudnn8-devel
 
 FROM pytorch/pytorch:${IMAGE_TAG}
 
@@ -15,7 +15,9 @@ RUN set -ex && \
 RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
-        neovim curl git tmux htop zsh iproute2 openssh-server iputils-ping dnsutils; \
+        neovim curl git tmux htop zsh iproute2 openssh-server iputils-ping dnsutils \
+        ffmpeg libsm6 libxext6 ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 \
+        libosmesa6-dev libgl1-mesa-dev libgl1-mesa-glx libglfw3 patchelf; \
     rm -rf /var/lib/apt/lists/*
 
 # ssh server (also for horovod ssh connection)
