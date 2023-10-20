@@ -28,8 +28,8 @@ ARG INSTALL_MAMBA=false
 
 # note: install mambaforge
 RUN if [ ${INSTALL_MAMBA} = true ]; then \
-        wget -O Mambaforge.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
-        bash Mambaforge.sh -b && \
+        wget -O Miniforge.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
+        bash Miniforge.sh -b && \
         rm Mambaforge.sh && \
         ~/mambaforge/bin/mamba init; \
     fi
