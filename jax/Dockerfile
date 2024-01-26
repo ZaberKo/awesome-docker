@@ -1,8 +1,6 @@
 ARG IMAGE_TAG=23.10-py3
 
 FROM nvcr.io/nvidia/jax:${IMAGE_TAG}
-# note: >22.10 nvidia changes to not using
-
 
 
 ENV TZ=Asia/Shanghai
@@ -29,9 +27,9 @@ ARG INSTALL_MAMBA=true
 
 # note: install mambaforge
 RUN if [ ${INSTALL_MAMBA} = true ]; then \
-        wget -O Miniforge.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
-        bash Miniforge.sh -b && \
-        rm Mambaforge.sh && \
+        wget -O Miniforge3.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
+        bash Miniforge3.sh -b && \
+        rm Miniforge3.sh && \
         ~/mambaforge/bin/mamba init; \
     fi
 
