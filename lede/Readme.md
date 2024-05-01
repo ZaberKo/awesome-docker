@@ -1,11 +1,11 @@
 # LEDE Compiler System
 
-Based on Ubuntu 20.04 LTS
+Based on Ubuntu 24.04 LTS
 
 ## Build the image from Dockerfile
 
 ```bash
-docker build -t lede:20.04 .
+docker build -t lede:24.04 .
 ```
 
 The default user is `fubuki`, you can change the username at **building time** by changing the Dockerfile with `ENV USERNAME=<xxx>`
@@ -15,7 +15,7 @@ The default user is `fubuki`, you can change the username at **building time** b
 Initialize the container
 
 ```bash
-docker run -it --name=lede  -v /your/host/path:/openwrt lede:20.04 /bin/bash
+docker run -it --name=lede  -v /your/host/path:/openwrt lede:24.04 /bin/bash
 ```
 You can specify your host user uid and gid by injecting env vars: `-e UID=$(id -u)` and `-e GID=$(id -g)`. This is helpful when using bind mounts.
 
