@@ -1,5 +1,5 @@
-FROM ubuntu:24.04
-LABEL maintainer="zaber" version="24.04"
+FROM ubuntu:22.04
+LABEL maintainer="zaber" version="22.04"
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
