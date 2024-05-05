@@ -31,7 +31,7 @@ RUN wget -O Miniforge3.sh  "https://github.com/conda-forge/miniforge/releases/la
     rm Miniforge3.sh && \
     ~/miniforge3/bin/mamba init
 
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "-c", "-i"]
 RUN mamba install pipx; \
     pipx install nvitop bpytop; \
     pipx ensurepath
