@@ -20,7 +20,7 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*
 
 # ssh server (also for horovod ssh connection)
-RUN sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
+RUN sed -i "/PermitRootLogin prohibit-password/c\PermitRootLogin yes" /etc/ssh/sshd_config
 EXPOSE 22
 
 ARG INSTALL_MAMBA=true
@@ -31,9 +31,10 @@ RUN wget -O Miniforge3.sh  "https://github.com/conda-forge/miniforge/releases/la
     rm Miniforge3.sh && \
     ~/miniforge3/bin/mamba init
 
-RUN bash -c 'mamba install pipx; \
+SHELL ["/bin/bash", "-c"]
+RUN mamba install pipx; \
     pipx install nvitop bpytop; \
-    pipx ensurepath'
+    pipx ensurepath
 
 
 # fix ssh login envs missing issue
