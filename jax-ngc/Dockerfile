@@ -1,4 +1,4 @@
-ARG IMAGE_TAG=23.10-py3
+ARG IMAGE_TAG=24.04-py3
 
 FROM nvcr.io/nvidia/jax:${IMAGE_TAG}
 
@@ -31,6 +31,9 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
         bash Miniforge3.sh -b && \
         rm Miniforge3.sh && \
         ~/miniforge3/bin/mamba init; \
+        mamba install pipx; \
+        pipx install nvitop bpytop; \
+        pipx ensurepath; \
     fi
 
 # fix ssh login envs missing issue
