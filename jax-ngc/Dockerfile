@@ -29,11 +29,11 @@ ARG INSTALL_MAMBA=true
 RUN wget -O Miniforge3.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
     bash Miniforge3.sh -b && \
     rm Miniforge3.sh && \
-    ~/miniforge3/bin/mamba init; 
+    ~/miniforge3/bin/mamba init
 
-RUN mamba install pipx; \
+RUN bash -c 'mamba install pipx; \
     pipx install nvitop bpytop; \
-    pipx ensurepath; 
+    pipx ensurepath'
 
 
 # fix ssh login envs missing issue
