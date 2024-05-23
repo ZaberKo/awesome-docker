@@ -16,7 +16,8 @@ RUN set -ex && \
 RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
-        neovim curl git tmux htop zsh iproute2 openssh-server iputils-ping dnsutils; \
+        neovim curl git tmux htop zsh \
+        iproute2 openssh-server iputils-ping dnsutils libgl1; \
     rm -rf /var/lib/apt/lists/*
 
 # ssh server (also for horovod ssh connection)
