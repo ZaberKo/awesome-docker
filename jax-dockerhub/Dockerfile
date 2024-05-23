@@ -1,4 +1,4 @@
-ARG IMAGE_TAG=12.4.1-cudnn-devel-ubuntu22.04
+ARG IMAGE_TAG=12.2.2-cudnn8-devel-ubuntu22.04
 
 FROM nvidia/cuda:${IMAGE_TAG}
 
