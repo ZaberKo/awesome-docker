@@ -60,12 +60,14 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*
 
 # install jax
+ARG JAXHUB_PYTHON_VERSION=3.10
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+SHELL ["/bin/bash", "-l", "-c"]
 RUN set -ex; \
-    pyenv install 3.10 && \
-    pyenv virtualenv 3.10 jaxhub && \
-    pyenv local jaxhub; \
-    pip install --upgrade "jax[cuda12_local]"
+    pyenv install ${JAXHUB_PYTHON_VERSION} && \
+    pyenv virtualenv ${JAXHUB_PYTHON_VERSION} jaxhub && \
+    pyenv local jaxhub
+RUN pip install --upgrade "jax[cuda12_local]"
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
