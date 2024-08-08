@@ -27,7 +27,7 @@ RUN pipx ensurepath && \
     pipx install nvitop && \
     pipx install bpytop
 
-ARG INSTALL_MAMBA=true
+ARG INSTALL_MAMBA=false
 
 # note: install mambaforge
 RUN if [ ${INSTALL_MAMBA} = true ]; then \

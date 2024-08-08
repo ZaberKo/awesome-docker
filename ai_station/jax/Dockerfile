@@ -1,6 +1,6 @@
-FROM nvcr.io/nvidia/jax:23.08-py3
+ARG IMAGE_TAG=24.04-py3
 
-EXPOSE 22
+FROM nvcr.io/nvidia/jax:${IMAGE_TAG}
 
 ENV TZ=Asia/Shanghai
 
@@ -18,7 +18,8 @@ RUN set -ex && \
 RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
-        neovim curl git tmux htop zsh iproute2 openssh-server libgl1 \
+        neovim curl git tmux htop zsh pipx \
+        iproute2 openssh-server libgl1 \
         libosmesa6-dev libgl1-mesa-glx libglfw3; \
     rm -rf /var/lib/apt/lists/*
 
@@ -26,9 +27,15 @@ RUN set -ex; \
 RUN apt install -y openssh-server && \
     mkdir -p /var/run/sshd && \
     sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
+EXPOSE 22
 
+RUN pipx ensurepath && \
+    pipx install nvitop && \
+    pipx install bpytop
 
 # jupyter lab
+RUN pip install jupyterlab
+
 ARG JUPYTER_CONFIG_DIR=/root/.jupyter/
 
 RUN mkdir -p $JUPYTER_CONFIG_DIR && \
@@ -39,3 +46,5 @@ RUN mkdir -p $JUPYTER_CONFIG_DIR && \
 # COPY ../jupyter_notebook_config.py ../custom.js $JUPYTER_CONFIG_DIR
 
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
+
+CMD ["/bin/bash"]

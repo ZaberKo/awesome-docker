@@ -28,19 +28,6 @@ RUN pipx ensurepath && \
     pipx install nvitop && \
     pipx install bpytop
 
-ARG INSTALL_MAMBA=true
-
-RUN wget -O Miniforge3.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
-    bash Miniforge3.sh -b && \
-    rm Miniforge3.sh && \
-    ~/miniforge3/bin/mamba init
-
-SHELL ["/bin/bash", "-c", "-i"]
-RUN mamba install -y pipx; \
-    pipx install nvitop bpytop; \
-    pipx ensurepath
-
-
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
 
