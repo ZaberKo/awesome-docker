@@ -23,7 +23,8 @@ RUN set -ex; \
 RUN sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
 EXPOSE 22
 
-RUN pipx ensurepath && \
+RUN set -ex; \
+    pipx ensurepath && \
     pipx install nvitop && \
     pipx install bpytop
 
@@ -31,10 +32,34 @@ ARG INSTALL_MAMBA=false
 
 # note: install mambaforge
 RUN if [ ${INSTALL_MAMBA} = true ]; then \
+    set -ex; \
     wget -O Miniforge3.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
     bash Miniforge3.sh -b && \
     rm Miniforge3.sh && \
     ~/miniforge3/bin/mamba init; \
+    fi
+
+ARG INSTALL_PYENV=false
+
+RUN if [ ${INSTALL_PYENV} = true ]; then \
+    set -ex; \
+    curl https://pyenv.run | bash; \
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc && \
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc && \
+    echo 'eval "$(pyenv init -)"' >> ~/.bashrc && \
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile && \
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile && \
+    echo 'eval "$(pyenv init -)"' >> ~/.profile; \
+    fi
+
+RUN if [ ${INSTALL_PYENV} = true ]; then \ 
+    set -ex; \
+    apt update;  \
+    DEBIAN_FRONTEND=noninteractive apt install -y \
+    build-essential libssl-dev zlib1g-dev \
+    libbz2-dev libreadline-dev libsqlite3-dev curl git \
+    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev; \
+    rm -rf /var/lib/apt/lists/*; \
     fi
 
 # fix ssh login envs missing issue
