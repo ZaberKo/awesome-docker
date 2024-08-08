@@ -16,15 +16,18 @@ RUN set -ex && \
 RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
-    neovim curl git tmux htop zsh iproute2 openssh-server iputils-ping dnsutils; \
+    neovim curl git tmux htop zsh pipx \
+    iproute2 openssh-server iputils-ping dnsutils; \
     rm -rf /var/lib/apt/lists/*
 
 # ssh server (also for horovod ssh connection)
 RUN sed -i "/PermitRootLogin prohibit-password/c\PermitRootLogin yes" /etc/ssh/sshd_config
 EXPOSE 22
 
-ARG INSTALL_MAMBA=true
+RUN pipx ensurepath && \
+    pipx install nvitop bpytop
 
+ARG INSTALL_MAMBA=true
 
 RUN wget -O Miniforge3.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
     bash Miniforge3.sh -b && \
