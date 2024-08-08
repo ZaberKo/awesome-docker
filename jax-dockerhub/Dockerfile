@@ -39,10 +39,9 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
     ~/miniforge3/bin/mamba init; \
     fi
 
-ARG INSTALL_PYENV=true
 
-RUN if [ ${INSTALL_PYENV} = true ]; then \
-    set -ex; \
+# install pyenv
+RUN set -ex; \
     curl https://pyenv.run | bash; \
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc && \
     echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc && \
@@ -52,15 +51,22 @@ RUN if [ ${INSTALL_PYENV} = true ]; then \
     echo 'eval "$(pyenv init -)"' >> ~/.profile; \
     fi
 
-RUN if [ ${INSTALL_PYENV} = true ]; then \ 
-    set -ex; \
+# install pyenv compile deps
+RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
     build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev curl git \
     libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev; \
-    rm -rf /var/lib/apt/lists/*; \
-    fi
+    rm -rf /var/lib/apt/lists/*
+
+# install jax
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+RUN set -ex; \
+    pyenv install 3.10 && \
+    pyenv virtualenv 3.10 jaxhub && \
+    pyenv local jaxhub; \
+    pip install --upgrade "jax[cuda12_local]"
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
