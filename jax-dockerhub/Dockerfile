@@ -2,7 +2,6 @@ ARG IMAGE_TAG=12.5.1-cudnn-devel-ubuntu22.04
 
 FROM nvidia/cuda:${IMAGE_TAG}
 
-
 ENV TZ=Asia/Shanghai
 
 RUN set -eux; \
