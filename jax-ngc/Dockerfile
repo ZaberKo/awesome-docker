@@ -25,7 +25,8 @@ RUN sed -i "/PermitRootLogin prohibit-password/c\PermitRootLogin yes" /etc/ssh/s
 EXPOSE 22
 
 RUN pipx ensurepath && \
-    pipx install nvitop bpytop
+    pipx install nvitop && \
+    pipx install bpytop
 
 ARG INSTALL_MAMBA=true
 
