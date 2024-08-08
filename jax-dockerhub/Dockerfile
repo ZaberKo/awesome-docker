@@ -39,17 +39,6 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
     ~/miniforge3/bin/mamba init; \
     fi
 
-
-# install pyenv
-RUN set -ex; \
-    curl https://pyenv.run | bash; \
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc && \
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc && \
-    echo 'eval "$(pyenv init -)"' >> ~/.bashrc && \
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile && \
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile && \
-    echo 'eval "$(pyenv init -)"' >> ~/.profile
-
 # install pyenv compile deps
 RUN set -ex; \
     apt update;  \
@@ -59,6 +48,18 @@ RUN set -ex; \
     libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev; \
     rm -rf /var/lib/apt/lists/*
 
+# install pyenv
+RUN set -ex; curl https://pyenv.run | bash
+# setup pyenv
+RUN set -ex; \
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc && \
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc && \
+    echo 'eval "$(pyenv init -)"' >> ~/.bashrc && \
+    echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc && \
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile && \
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile && \
+    echo 'eval "$(pyenv init -)"' >> ~/.profile
+
 # install jax
 ARG JAXHUB_PYTHON_VERSION=3.10
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
@@ -67,7 +68,7 @@ RUN set -ex; \
     pyenv install ${JAXHUB_PYTHON_VERSION} && \
     pyenv virtualenv ${JAXHUB_PYTHON_VERSION} jaxhub && \
     pyenv local jaxhub
-RUN pip install --upgrade "jax[cuda12_local]"
+RUN set -ex; pip install --upgrade "jax[cuda12_local]"
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
