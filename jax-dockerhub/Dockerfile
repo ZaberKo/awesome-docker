@@ -39,7 +39,7 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
     ~/miniforge3/bin/mamba init; \
     fi
 
-ARG INSTALL_PYENV=false
+ARG INSTALL_PYENV=true
 
 RUN if [ ${INSTALL_PYENV} = true ]; then \
     set -ex; \
