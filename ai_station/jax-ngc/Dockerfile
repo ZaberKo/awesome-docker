@@ -19,15 +19,12 @@ RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
         neovim curl git tmux htop zsh pipx \
-        iproute2 openssh-server libgl1 \
+        iproute2 openssh-server iputils-ping dnsutils libgl1 \
         libosmesa6-dev libgl1-mesa-glx libglfw3; \
     rm -rf /var/lib/apt/lists/*
 
 # ssh server
 RUN set -eux; \
-    apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates && \
-    rm -rf /var/lib/apt/lists/* && \
     mkdir -p /var/run/sshd && \
     sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
 EXPOSE 22

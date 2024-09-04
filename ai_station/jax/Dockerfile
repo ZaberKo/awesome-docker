@@ -21,9 +21,6 @@ RUN set -ex; \
 
 # ssh server
 RUN set -eux; \
-    apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates && \
-    rm -rf /var/lib/apt/lists/* && \
     mkdir -p /var/run/sshd && \
     sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
 EXPOSE 22
