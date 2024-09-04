@@ -1,4 +1,4 @@
-ARG IMAGE_TAG=12.5.1-cudnn-devel-ubuntu22.04
+ARG IMAGE_TAG=12.6.0-cudnn-devel-ubuntu24.04
 
 FROM nvidia/cuda:${IMAGE_TAG}
 
@@ -61,14 +61,15 @@ RUN set -ex; \
     echo 'eval "$(pyenv init -)"' >> ~/.profile
 
 # install jax
+ARG JAXHUB_VENV_NAME=jaxhub
 ARG JAXHUB_PYTHON_VERSION=3.10
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 SHELL ["/bin/bash", "-l", "-c"]
 RUN set -ex; \
     pyenv install ${JAXHUB_PYTHON_VERSION} && \
-    pyenv virtualenv ${JAXHUB_PYTHON_VERSION} jaxhub && \
-    pyenv local jaxhub
-RUN set -ex; pip install --upgrade "jax[cuda12_local]"
+    pyenv virtualenv ${JAXHUB_PYTHON_VERSION} ${JAXHUB_VENV_NAME} && \
+    pyenv activate ${JAXHUB_VENV_NAME} && \
+    pip install --upgrade "jax[cuda12_local]"
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
