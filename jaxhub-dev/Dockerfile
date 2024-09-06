@@ -5,19 +5,20 @@ FROM nvidia/cuda:${IMAGE_TAG}
 
 ENV TZ=Asia/Shanghai
 
-RUN set -eux; \
-    apt update; \
-    DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates; \
-    rm -rf /var/lib/apt/lists/*
+# we know nvidia/cuda has aleady installed ca-certificates
+# RUN set -eux; \
+#     apt update && \
+#     DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates && \
+#     rm -rf /var/lib/apt/lists/*
 
 RUN set -ex && \
     sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
 
 RUN set -ex; \
-    apt update;  \
+    apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y \
     neovim curl git tmux htop zsh pipx \
-    iproute2 openssh-server iputils-ping dnsutils libgl1; \
+    iproute2 openssh-server iputils-ping dnsutils libgl1 && \
     rm -rf /var/lib/apt/lists/*
 
 # ssh server (also for horovod ssh connection)
@@ -42,11 +43,11 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
 
 # install pyenv compile deps
 RUN set -ex; \
-    apt update;  \
+    apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y \
     build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev curl git \
-    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev; \
+    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # install pyenv
