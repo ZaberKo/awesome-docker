@@ -12,7 +12,7 @@ RUN set -ex && \
 RUN set -ex; \
     apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y \
-    build-essential checkinstall clang cmake curl git lld vim python-is-python3 python3-pip wget \
+    build-essential clang cmake lld vim python-is-python3 python3-pip wget \
     neovim curl git tmux htop zsh pipx \
     iproute2 openssh-server iputils-ping dnsutils libgl1 && \
     rm -rf /var/lib/apt/lists/*
