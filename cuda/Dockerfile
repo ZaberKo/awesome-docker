@@ -44,7 +44,7 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
 ARG INSTALL_PYENV=false
 
 # install pyenv compile deps
-RUN if [ ${INSTALL_MAMBA} = true ]; then \
+RUN if [ ${INSTALL_PYENV} = true ]; then \
     set -ex; \
     apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y \
@@ -55,14 +55,16 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
     fi
 
 # install pyenv
-RUN set -ex; curl https://pyenv.run | bash && \
+RUN if [ ${INSTALL_PYENV} = true ]; then \
+    set -ex; curl https://pyenv.run | bash && \
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc && \
     echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc && \
     echo 'eval "$(pyenv init -)"' >> ~/.bashrc && \
     echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc && \
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile && \
     echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile && \
-    echo 'eval "$(pyenv init -)"' >> ~/.profile
+    echo 'eval "$(pyenv init -)"' >> ~/.profile ;\
+    fi
 
 # see https://gitlab.com/nvidia/container-images/cuda/-/blob/master/README.md#ld_library_path-notice
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
