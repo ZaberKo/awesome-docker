@@ -42,6 +42,7 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
     fi
 
 ARG INSTALL_PYENV=false
+ARG PYENV_PYTHON_VERSION=3.10
 
 # install pyenv compile deps
 RUN if [ ${INSTALL_PYENV} = true ]; then \
@@ -64,6 +65,12 @@ RUN if [ ${INSTALL_PYENV} = true ]; then \
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile && \
     echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile && \
     echo 'eval "$(pyenv init -)"' >> ~/.profile ;\
+    fi
+
+# install python via pyenv
+RUN if [ ${INSTALL_PYENV} = true ]; then \
+    pyenv install ${PYENV_PYTHON_VERSION} && \
+    pyenv global ${PYENV_PYTHON_VERSION}; \
     fi
 
 # see https://gitlab.com/nvidia/container-images/cuda/-/blob/master/README.md#ld_library_path-notice
