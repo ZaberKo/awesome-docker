@@ -47,28 +47,8 @@ RUN set -ex; \
     libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev; \
     rm -rf /var/lib/apt/lists/*
 
-# install pyenv
-RUN set -ex; curl https://pyenv.run | bash
-# setup pyenv
-RUN set -ex; \
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc && \
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc && \
-    echo 'eval "$(pyenv init -)"' >> ~/.bashrc && \
-    echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc && \
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile && \
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile && \
-    echo 'eval "$(pyenv init -)"' >> ~/.profile
-
-# install jax
-ARG JAXHUB_VENV_NAME=jaxhub
-ARG JAXHUB_PYTHON_VERSION=3.10
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 SHELL ["/bin/bash", "-l", "-c"]
-RUN set -ex; \
-    pyenv install ${JAXHUB_PYTHON_VERSION} && \
-    pyenv virtualenv ${JAXHUB_PYTHON_VERSION} ${JAXHUB_VENV_NAME} && \
-    pyenv global ${JAXHUB_VENV_NAME} && \
-    pip install --upgrade "jax[cuda12_local]" jupyterlab
+RUN LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH pip install --upgrade "jax[cuda12_local]" jupyterlab
 
 ARG JUPYTER_CONFIG_DIR=/root/.jupyter/
 

@@ -27,9 +27,9 @@ RUN set -ex; \
     pipx install bpytop
 
 # install jax
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+# ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 SHELL ["/bin/bash", "-l", "-c"]
-RUN pip install --upgrade "jax[cuda12_local]" jupyterlab
+RUN LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH pip install --upgrade "jax[cuda12_local]" jupyterlab
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
