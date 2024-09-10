@@ -71,7 +71,7 @@ RUN set -ex; \
     pyenv install ${JAXHUB_PYTHON_VERSION} && \
     pyenv virtualenv ${JAXHUB_PYTHON_VERSION} ${JAXHUB_VENV_NAME} && \
     pyenv activate ${JAXHUB_VENV_NAME} && \
-    pip install --upgrade "jax[cuda12_local]"
+    pip install --upgrade "jax[cuda12_local]" jupyterlab
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
