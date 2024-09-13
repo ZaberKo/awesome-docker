@@ -61,19 +61,18 @@ RUN set -ex; \
 # install jax
 ARG JAXHUB_VENV_NAME=jaxhub
 ARG JAXHUB_PYTHON_VERSION=3.10
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 SHELL ["/bin/bash", "-l", "-c"]
 RUN set -ex; \
     pyenv install ${JAXHUB_PYTHON_VERSION} && \
     pyenv virtualenv ${JAXHUB_PYTHON_VERSION} ${JAXHUB_VENV_NAME} && \
     pyenv global ${JAXHUB_VENV_NAME} && \
-    pip install --upgrade "jax[cuda12_local]" jupyterlab
+    LD_LIBRARY_PATH=/usr/local/cuda/lib64 pip install --upgrade "jax[cuda12_local]" jupyterlab
 
-ARG JUPYTER_CONFIG_DIR=/root/.jupyter/
+# ARG JUPYTER_CONFIG_DIR=/root/.jupyter/
 
-RUN mkdir -p $JUPYTER_CONFIG_DIR && \
-    wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/jupyter_notebook_config.py && \
-    wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js
+# RUN mkdir -p $JUPYTER_CONFIG_DIR && \
+#     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/jupyter_notebook_config.py && \
+#     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js
     
 
 # fix ssh login envs missing issue
