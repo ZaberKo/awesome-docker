@@ -12,6 +12,7 @@ RUN set -ex && \
 RUN set -ex; \
     apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y \
+    python-is-python3 python3-pip python3-venv \
     neovim curl git tmux htop zsh pipx \
     iproute2 openssh-server iputils-ping dnsutils libgl1 && \
     rm -rf /var/lib/apt/lists/*
