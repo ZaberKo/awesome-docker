@@ -29,7 +29,7 @@ RUN set -ex; \
 # install jax
 # ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 # SHELL ["/bin/bash", "-l", "-c"]
-RUN LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH pip install --upgrade "jax[cuda12_local]" jupyterlab
+RUN env -u LD_LIBRARY_PATH pip install --upgrade "jax[cuda12]" jupyterlab
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
