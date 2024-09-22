@@ -66,7 +66,7 @@ RUN set -ex; \
     pyenv install ${JAXHUB_PYTHON_VERSION} && \
     pyenv virtualenv ${JAXHUB_PYTHON_VERSION} ${JAXHUB_VENV_NAME} && \
     pyenv global ${JAXHUB_VENV_NAME} && \
-    LD_LIBRARY_PATH=/usr/local/cuda/lib64 pip install --upgrade "jax[cuda12_local]" jupyterlab
+    env -u LD_LIBRARY_PATH pip install --upgrade "jax[cuda12]" jupyterlab
 
 # ARG JUPYTER_CONFIG_DIR=/root/.jupyter/
 

@@ -14,9 +14,8 @@ RUN set -ex; \
     iproute2 openssh-server iputils-ping dnsutils libgl1; \
     rm -rf /var/lib/apt/lists/*
 
-RUN export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH && \
-    pip install -U pip && \
-    pip install --upgrade "jax[cuda12_local]" jupyterlab
+RUN pip install -U pip && \
+    env -u LD_LIBRARY_PATH pip install --upgrade "jax[cuda12_local]" jupyterlab
 
 RUN set -ex; \
     pipx ensurepath && \
