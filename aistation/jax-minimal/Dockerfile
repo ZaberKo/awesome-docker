@@ -15,7 +15,7 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install -U pip && \
-    env -u LD_LIBRARY_PATH pip install --upgrade "jax[cuda12_local]" jupyterlab
+    env -u LD_LIBRARY_PATH pip install --upgrade "jax[cuda12]" jupyterlab
 
 RUN set -ex; \
     pipx ensurepath && \
