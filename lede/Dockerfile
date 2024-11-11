@@ -32,10 +32,9 @@ ENV UID=1000
 ENV GID=1000
 ENV USERNAME=fubuki
 ENV WORKDIR="/openwrt"
+ENV TERM=xterm-256color
 
 VOLUME ["${WORKDIR}"]
-
-ENV TERM xterm-256color
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
