@@ -1,0 +1,41 @@
+name: det2-torch113
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - jupyterlab
+  - ipykernel
+  - tqdm
+  # vscode support
+  - autopep8
+  - pylint
+  - ipywidgets
+  # -------
+  - pyyaml
+  - ruamel.yaml
+  - scipy
+  - pandas
+  - matplotlib
+  - seaborn
+  - pillow
+  - opencv
+  - gputil
+  - llvm-openmp<16 # fix for pytorch#99625
+  - pytorch::pytorch==1.13.1
+  - pytorch::torchvision==0.14.1
+  - pytorch::pytorch-cuda=11.7
+  - tensorboard
+  - tensorboardx
+  - timm
+  - yacs
+  - hydra-core
+  - tqdm
+  - pillow
+  - tensorboard
+  - pycocotools
+  - pip:
+    - git+https://github.com/facebookresearch/detectron2.git@80307d2d5e06f06a8a677cc2653f23a4c56402ac
+    - --no-binary=detectron2
