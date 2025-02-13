@@ -1,6 +1,4 @@
-ARG IMAGE_TAG=2.1.0-cuda12.1-cudnn8-devel
-
-FROM pytorch/pytorch:${IMAGE_TAG}
+FROM stablebaselines/rl-baselines3-zoo
 
 ENV TZ=Asia/Shanghai
 
