@@ -37,7 +37,7 @@ RUN wget -O Miniforge.sh  "https://github.com/conda-forge/miniforge/releases/lat
 COPY det2_env.yaml /root/det2_env.yaml
 SHELL ["/bin/bash", "-i", "-c"]
 RUN mamba env create -f det2_env.yaml
-RUN echo "conda activate rllib" >> /root/.bashrc
+RUN echo "conda activate det2-torch113" >> /root/.bashrc
 
 CMD ["/bin/bash"]
 
