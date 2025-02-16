@@ -1,0 +1,11 @@
+tensorboard
+tensorboardX
+timm
+wandb
+yacs
+hydra-core
+tqdm
+pillow
+pycocotools
+git+https://github.com/facebookresearch/detectron2.git@80307d2d5e06f06a8a677cc2653f23a4c56402ac
+--no-binary=detectron2

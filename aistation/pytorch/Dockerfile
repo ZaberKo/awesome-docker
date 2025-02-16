@@ -1,6 +1,4 @@
-FROM nvcr.io/nvidia/pytorch:23.03-py3
-
-EXPOSE 22
+FROM nvcr.io/nvidia/pytorch:24.05-py3
 
 ENV TZ=Asia/Shanghai
 
@@ -18,26 +16,22 @@ RUN set -ex && \
 RUN set -ex; \
     apt update;  \
     DEBIAN_FRONTEND=noninteractive apt install -y \
-        neovim curl git tmux htop zsh iproute2 openssh-server libgl1 \
-        libosmesa6-dev libgl1-mesa-glx libglfw3; \
+        neovim curl git tmux htop zsh iproute2 openssh-server iputils-ping dnsutils \
+        ffmpeg unzip libsm6 libxext6 ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 \
+        libosmesa6-dev libgl1-mesa-dev libgl1-mesa-glx libglfw3 patchelf; \
     rm -rf /var/lib/apt/lists/*
 
 # ssh server
 RUN apt install -y openssh-server && \
     mkdir -p /var/run/sshd && \
     sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
-
+EXPOSE 22
 
 # jupyter lab
-ARG JUPYTER_CONFIG_DIR=/root/.jupyter/
+# ARG JUPYTER_CONFIG_DIR=/root/.jupyter/
 
-RUN mkdir -p $JUPYTER_CONFIG_DIR && \
-    wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/jupyter_notebook_config.py && \
-    wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js
-
-# use local script
-# COPY ../jupyter_notebook_config.py ../custom.js $JUPYTER_CONFIG_DIR
-
-
+# RUN mkdir -p $JUPYTER_CONFIG_DIR && \
+#     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/jupyter_notebook_config.py && \
+#     wget -P $JUPYTER_CONFIG_DIR https://raw.githubusercontent.com/Winowang/jupyter_gpu/master/custom.js
 
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
