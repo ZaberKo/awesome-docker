@@ -1,5 +1,4 @@
-ARG IMAGE_TAG=12.4.1-cudnn-devel-ubuntu22.04
-
+ARG IMAGE_TAG=12.6.3-cudnn-devel-ubuntu24.04
 
 FROM nvidia/cuda:${IMAGE_TAG}
 
@@ -17,7 +16,7 @@ RUN set -ex && \
 RUN set -ex; \
     apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y \
-    neovim curl git tmux htop zsh pipx \
+    neovim curl git tmux htop zsh rsync \
     iproute2 openssh-server iputils-ping dnsutils libgl1 && \
     rm -rf /var/lib/apt/lists/*
 
@@ -25,12 +24,7 @@ RUN set -ex; \
 RUN sed -i '/PermitRootLogin prohibit-password/c\PermitRootLogin yes' /etc/ssh/sshd_config
 EXPOSE 22
 
-RUN set -ex; \
-    pipx ensurepath && \
-    pipx install nvitop && \
-    pipx install bpytop
-
-ARG INSTALL_MAMBA=false
+ARG INSTALL_MAMBA=true
 
 # note: install mambaforge
 RUN if [ ${INSTALL_MAMBA} = true ]; then \
@@ -38,43 +32,18 @@ RUN if [ ${INSTALL_MAMBA} = true ]; then \
     wget -O Miniforge3.sh  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
     bash Miniforge3.sh -b && \
     rm Miniforge3.sh && \
-    ~/miniforge3/bin/mamba init; \
+    ~/miniforge3/bin/mamba shell init -s bash; \
     fi
 
-ARG INSTALL_PYENV=false
-ARG PYENV_PYTHON_VERSION=3.10
-
-# install pyenv compile deps
-RUN if [ ${INSTALL_PYENV} = true ]; then \
-    set -ex; \
-    apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install -y \
-    build-essential libssl-dev zlib1g-dev \
-    libbz2-dev libreadline-dev libsqlite3-dev curl git \
-    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev && \
-    rm -rf /var/lib/apt/lists/* ;\
-    fi
-
-# install pyenv
-RUN if [ ${INSTALL_PYENV} = true ]; then \
-    set -ex; curl https://pyenv.run | bash && \
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc && \
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc && \
-    echo 'eval "$(pyenv init -)"' >> ~/.bashrc && \
-    echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc && \
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile && \
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile && \
-    echo 'eval "$(pyenv init -)"' >> ~/.profile ;\
-    fi
-
-# install python via pyenv
-RUN if [ ${INSTALL_PYENV} = true ]; then \
-    pyenv install ${PYENV_PYTHON_VERSION} && \
-    pyenv global ${PYENV_PYTHON_VERSION}; \
+ARG INSTALL_UV=true
+RUN if [ ${INSTALL_UV} = true ]; then \
+    curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    echo 'eval "$(uv generate-shell-completion bash)"' >> ~/.bashrc && \
+    echo 'eval "$(uvx --generate-shell-completion bash)"' >> ~/.bashrc; \
     fi
 
 # see https://gitlab.com/nvidia/container-images/cuda/-/blob/master/README.md#ld_library_path-notice
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+# ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
 # fix ssh login envs missing issue
 RUN env | egrep -v "^(HOME=|USER=|MAIL=|LS_COLORS=|LANG=|HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_=|SHELL=)" >> /etc/environment
